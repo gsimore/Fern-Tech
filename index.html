@@ -436,6 +436,126 @@
             transform: translateY(-2px);
         }
 
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-status {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            min-height: 1.2em;
+            padding: 0.5rem 0;
+            line-height: 1.5;
+        }
+
+        .form-status.success {
+            color: var(--mint);
+        }
+
+        .form-status.error {
+            color: #e89595;
+        }
+
+        /* Success modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 46, 31, 0.65);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: var(--cream);
+            color: var(--forest-deep);
+            padding: 3rem 2.5rem 2.5rem;
+            border-radius: 4px;
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            transform: translateY(10px) scale(0.98);
+            transition: transform 0.3s ease;
+            box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            line-height: 1;
+            color: var(--forest-mid);
+            cursor: pointer;
+            padding: 0.25rem 0.6rem;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--forest-deep);
+        }
+
+        .modal-icon {
+            width: 56px;
+            height: 56px;
+            color: var(--fern-green);
+            margin: 0 auto 1.25rem;
+            display: block;
+        }
+
+        .modal h3 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            color: var(--forest-deep);
+        }
+
+        .modal p {
+            font-size: 1rem;
+            color: var(--forest-mid);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .modal-action {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            padding: 0.85rem 2rem;
+            background: var(--forest-deep);
+            color: var(--warm-white);
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-action:hover {
+            background: var(--fern-green);
+        }
+
         .contact-info {
             display: flex;
             flex-direction: column;
@@ -683,7 +803,8 @@
                 <span class="section-label">Contact</span>
                 <h2 class="section-title">Let's build something</h2>
                 <p class="contact-intro">Have a project in mind? Tell us what you're working on and we'll take it from there.</p>
-                <form class="contact-form" action="#" method="POST">
+                <form class="contact-form" action="https://formspree.io/f/xrejwqye" method="POST">
+                    <input type="hidden" name="_subject" value="New inquiry from ferntech.org">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" placeholder="Your name" required>
@@ -712,6 +833,7 @@
                         <textarea id="message" name="message" placeholder="What are you working on? Where are you stuck?" required></textarea>
                     </div>
                     <button type="submit" class="submit-btn">Send message</button>
+                    <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
                 </form>
             </div>
             <div class="contact-info">
@@ -722,7 +844,7 @@
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    hello@ferntech.org
+                    ferntechconsult@gmail.com
                 </div>
                 <div class="contact-detail">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -735,9 +857,22 @@
     </section>
 
     <footer>
-        <p>&copy; 2025 Fern Tech. All rights reserved.</p>
+        <p>&copy; 2026 Fern Tech. All rights reserved.</p>
         <p>Built with care for the planet.</p>
     </footer>
+
+    <div class="modal-overlay" id="success-modal" role="dialog" aria-modal="true" aria-labelledby="success-modal-title" aria-hidden="true">
+        <div class="modal">
+            <button class="modal-close" type="button" aria-label="Close">&times;</button>
+            <svg class="modal-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2"/>
+                <path d="M14 24L20 30L34 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3 id="success-modal-title">Message sent</h3>
+            <p>Thanks for reaching out! We'll be in touch within a few business days.</p>
+            <button class="modal-action" type="button">Got it</button>
+        </div>
+    </div>
 
     <script>
         // Navbar scroll effect
@@ -750,13 +885,71 @@
             }
         });
 
+        // Success modal
+        const modal = document.getElementById('success-modal');
+        const modalClose = modal.querySelector('.modal-close');
+        const modalAction = modal.querySelector('.modal-action');
+        let lastFocused = null;
+
+        function openModal() {
+            lastFocused = document.activeElement;
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+            modalAction.focus();
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+            if (lastFocused && typeof lastFocused.focus === 'function') {
+                lastFocused.focus();
+            }
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalAction.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+
         // Form submission handling
         const form = document.querySelector('.contact-form');
-        form.addEventListener('submit', (e) => {
+        const submitBtn = form.querySelector('.submit-btn');
+        const formStatus = document.getElementById('form-status');
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // Here you would typically send the form data to a backend
-            alert('Thanks for reaching out! We\'ll be in touch soon.');
-            form.reset();
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending…';
+            formStatus.textContent = '';
+            formStatus.className = 'form-status';
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (response.ok) {
+                    form.reset();
+                    openModal();
+                } else {
+                    const data = await response.json().catch(() => ({}));
+                    formStatus.textContent = data.errors?.map(err => err.message).join(', ')
+                        || 'Something went wrong. Please try again or email ferntechconsult@gmail.com.';
+                    formStatus.classList.add('error');
+                }
+            } catch {
+                formStatus.textContent = 'Network error. Please try again or email ferntechconsult@gmail.com.';
+                formStatus.classList.add('error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
         });
     </script>
 </body>
